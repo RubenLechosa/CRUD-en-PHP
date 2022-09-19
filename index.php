@@ -12,15 +12,28 @@
 
 <body>
 
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container collapse navbar-collapse">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="navbar-brand" href="productos.php">Almacén</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<nav class="navbar navbar-expand-lg bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand disabled" href="#">Crud en PHP</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="index.php">Insertar Productos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="productos.php">Almacén</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+</nav>
 
     <div class="container p-4">
         <div class="row">
@@ -66,3 +79,6 @@
             </div>
         </div>
     </div>
+
+    <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
