@@ -1,28 +1,3 @@
-<?php
-    print_r($_GET['id']);
-
-    include("conexion.php");
-
-    if(isset($_GET['id'])){
-    $id = $_GET['id'];
-    $query = "SELECT * FROM productos WHERE id = $id";
-
-    $result = mysqli_query($conexion, $query);
-
-    if(mysqli_num_rows($result) == 1){
-        $fila = mysqli_fetch_array($result);
-        $id = $fila['id'];
-        $nombre = $fila['nombre'];
-        $categoria = $fila['categoria'];
-        $cantidad = $fila['cantidad'];
-        $precio = $fila['precio'];
-
-    }
-
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,10 +27,6 @@
           <a class="nav-link" href="productos.php">Almacén</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
-      </form>
     </div>
   </div>
 </nav>
@@ -79,19 +50,19 @@
                         <div class="form-outline mb-4">
                             <label class="form-label" for="categoria">Categoria</label>
                             <input type="text" name="categoria" class="form-control"
-                                placeholder="Inserta la categoria del producto" value="<?php echo($categoria) ?>" />
+                                placeholder="Inserta la categoria del producto" value="<?=$categoria ?>" />
                         </div>
                         <!-- Cantidad input -->
                         <div class="form-outline mb-4">
                             <label class="form-label" for="cantidad">Cantidad</label>
                             <input type="number" name="cantidad" class="form-control"
-                                placeholder="Inserta la cantidad del producto" value="<?php echo($cantidad) ?>" />
+                                placeholder="Inserta la cantidad del producto" value="<?=$cantidad ?>" />
                         </div>
                         <!-- Precio input -->
                         <div class="form-outline mb-4">
                             <label class="form-label" for="precio">Precio</label>
                             <input type="number" name="precio" class="form-control"
-                                placeholder="Inserta el precio del producto" value="<?php echo($precio) ?>" />
+                                placeholder="Inserta el precio del producto" value="<?=$precio ?>" />
                         </div>
 
                         <!-- Submit button -->
@@ -109,3 +80,26 @@
 
     <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
+<?php
+    include("conexion.php");
+
+    if(isset($_GET['id'])){
+    $id = $_GET['id'];
+    $query = "SELECT * FROM productos WHERE id = $id";
+
+    $result = mysqli_query($conexion, $query);
+
+    if(mysqli_num_rows($result) == 1){
+        $fila = mysqli_fetch_array($result);
+        $id = $fila['id'];
+        $nombre = $fila['nombre'];
+        $categoria = $fila['categoria'];
+        $cantidad = $fila['cantidad'];
+        $precio = $fila['precio'];
+
+    }
+
+}
+
+?>

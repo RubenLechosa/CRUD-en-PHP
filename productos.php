@@ -17,7 +17,7 @@
 
 <nav class="navbar navbar-expand-lg bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Crud en PHP</a>
+  <a class="navbar-brand disabled" href="#"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -30,14 +30,17 @@
           <a class="nav-link" href="productos.php">Almacén</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
+      <form action="./datos.php" method="POST" class="d-flex" role="search">
+        <input class="form-control me-1" type="search" placeholder="ID" aria-label="Search">
+        <input class="form-control me-1" type="search" placeholder="Nombre" aria-label="Search">
+        <input class="form-control me-1" type="search" placeholder="Categoria" aria-label="Search">
+        <input class="form-control me-1" type="search" placeholder="Cantidad" aria-label="Search">
+        <input class="form-control me-1" type=" search" placeholder="Precio" aria-label="Search">
+        <button id="boton" type="submit" class="btn btn-success d-inline-block" value="1" name="commandFiltrar">Filtrar</button>
       </form>
     </div>
   </div>
 </nav>
-
 <body>
     <table class="table">
         <tr>
@@ -46,7 +49,7 @@
             <th>Categoria</th>
             <th>Cantidad</th>
             <th>Precio</th>
-            <th></th>
+            <th>Acciones</th>
             <th></th>
         </tr>
         <?php
@@ -54,7 +57,7 @@
         $sql2 = "SELECT * FROM `productos`";
         $consulta = mysqli_query($conexion, $sql2);
         while($fila = $consulta -> fetch_assoc()){
-            echo "<tr>";
+            echo "<tr>";  
             echo "<td>".$fila["id"]."</td>";
             echo "<td>".$fila["nombre"]."</td>";
             echo "<td>".$fila["categoria"]."</td>";
@@ -62,6 +65,7 @@
             echo "<td>".$fila["precio"]."</td>";
             echo "<td> <a class='btn btn-primary' href='editar.php?id=".$fila['id']."'><i class='fa-solid fa-pen-to-square'></i></a>
             <a class='btn btn-danger' href='borrar.php?id=".$fila['id']."'><i class='fa-solid fa-trash'></i></a></td>";
+            echo "<td> </td>";
         }
 
         ?>

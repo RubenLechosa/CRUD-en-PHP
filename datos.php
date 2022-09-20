@@ -59,4 +59,30 @@ if(isset($_POST['commandEditar'])) {
             
     }
 
+    if(isset($_GET['commandBorrar'])) {
+
+        
+            if(isset($_GET['id'])){
+                $id = $_GET['id'];
+                $sql3 = "DELETE FROM productos WHERE id = $id";
+
+                $consulta = mysqli_query($conexion, $sql3);
+            
+                if(!$consulta){
+                    print_r("Error");
+                }else{
+                    header("Location: /ejercicio1PHP/productos.php");
+                }
+            }
+    }
+
+    if(isset($_POST['commandFiltrar'])) {
+
+        print_r("Estas Filtrando");
+}
+
+
+
+    
+
 ?>

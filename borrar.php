@@ -30,48 +30,29 @@
           <a class="nav-link" href="productos.php">Almacén</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
-      </form>
     </div>
   </div>
 </nav>
 
 <body>
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title">¿Seguro quieres borrar el producto?</h5>
 
-    <a class="btn btn-primary" href="borrar.php?id=<?php echo($fila['id'])?>">Si</a>
-    <a href="productos.php" class="btn btn-danger">No</a>
-    
+<div class="container ola">
+    <div class="card bg-dark">
+      <div class="card-body">
+        <h5 class="card-title">Seguro quieres borrar el producto?</h5>
+          <form action="./datos.php" method="GET">
+            <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
+            <button id="boton" type="submit" class="btn btn-success d-inline-block" value="1" name="commandBorrar">Si</button>
+            <a id="boton" href="productos.php" class="btn btn-danger d-inline-block">No</a>
+          </form>
+      </div>
+    </div>
   </div>
-</div>
+
+
 
 </body>
 
 </html>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-
-
-<?php 
-
-include("conexion.php");
-
-if(isset($_GET['id'])){
-    $id = $_GET['id'];
-    $query = "DELETE FROM productos WHERE id = $id";
-
-    $result = mysqli_query($conexion, $query);
-
-    if(!$result){
-        die("error al borrar los datos");
-    }else{
-        header("Location: /ejercicio1PHP/productos.php");
-    }
-}
-
-
-?>
