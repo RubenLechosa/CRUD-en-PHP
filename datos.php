@@ -77,8 +77,18 @@ if(isset($_POST['commandEditar'])) {
     }
 
     if(isset($_POST['commandFiltrar'])) {
+        $id = $_GET['id'];
+        print_r("Estas Filtrando"); 
 
-        print_r("Estas Filtrando");
+        $sql3 = "SELECT * FROM `productos` WHERE id = 10;";
+        $consulta = mysqli_query($conexion, $sql3);
+
+        if(!$consulta){
+            print_r("Error");
+        }else{
+            header("Location: /ejercicio1PHP/productos.php");
+        }
+
 }
 
 

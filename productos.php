@@ -12,7 +12,6 @@
         <!-- Font Awesome -->
         <script src="https://kit.fontawesome.com/9ddb4510e0.js" crossorigin="anonymous"></script>
 </head>
-
 <body>
 
 <nav class="navbar navbar-expand-lg bg-dark">
@@ -30,12 +29,12 @@
           <a class="nav-link" href="productos.php">Almacén</a>
         </li>
       </ul>
-      <form action="./datos.php" method="POST" class="d-flex" role="search">
-        <input class="form-control me-1" type="search" placeholder="ID" aria-label="Search">
-        <input class="form-control me-1" type="search" placeholder="Nombre" aria-label="Search">
-        <input class="form-control me-1" type="search" placeholder="Categoria" aria-label="Search">
-        <input class="form-control me-1" type="search" placeholder="Cantidad" aria-label="Search">
-        <input class="form-control me-1" type=" search" placeholder="Precio" aria-label="Search">
+      <form action="" method="GET" class="d-flex">
+        <input class="form-control me-1" type="text" placeholder="ID" name="id">
+        <input class="form-control me-1" type="text" placeholder="Nombre" name="nombre" value="<?php if(isset($_GET["nombre"])){echo($_GET["nombre"]);}?>">
+        <input class="form-control me-1" type="text" placeholder="Categoria" name="categoria">
+        <input class="form-control me-1" type="text" placeholder="Cantidad" name="cantidad">
+        <input class="form-control me-1" type=" text" placeholder="Precio" name="precio">
         <button id="boton" type="submit" class="btn btn-success d-inline-block" value="1" name="commandFiltrar">Filtrar</button>
       </form>
     </div>
@@ -54,7 +53,33 @@
         </tr>
         <?php
         include_once("conexion.php");
-        $sql2 = "SELECT * FROM `productos`";
+        $sql2 = "SELECT * FROM `productos` WHERE 1=1 ";
+
+        if(isset($_GET["id"]) && $_GET["id"]) {
+          $sql2 .= "AND `id` LIKE " . $_GET["id"] . " ";;
+        }
+
+        if(isset($_GET["nombre"]) && $_GET["nombre"]) {
+          $sql2 .= "AND `nombre` LIKE '%" . $_GET["nombre"] . "%' ";
+        }
+
+        if(isset($_GET["categoria"]) && $_GET["categoria"]) {
+          $sql2 .= "AND `categoria` LIKE '%" . $_GET["categoria"] . "%' ";;
+        }
+
+        if(isset($_GET["cantidad"]) && $_GET["cantidad"] > 0) {
+          $sql2 .= "AND `cantidad` LIKE " . $_GET["cantidad"] . " ";;
+        }
+
+        if(isset($_GET["cantidad"]) && $_GET["cantidad"] == 0) {
+          $sql2 .= "AND `cantidad` LIKE " . 0 . " ";
+        }
+
+        if(isset($_GET["precio"]) && $_GET["precio"]) {
+          $sql2 .= "AND `precio` LIKE " . $_GET["precio"] . " ";;
+        }
+
+
         $consulta = mysqli_query($conexion, $sql2);
         while($fila = $consulta -> fetch_assoc()){
             echo "<tr>";  
