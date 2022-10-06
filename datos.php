@@ -76,20 +76,45 @@ if(isset($_POST['commandEditar'])) {
             }
     }
 
-    if(isset($_POST['commandFiltrar'])) {
-        $id = $_GET['id'];
-        print_r("Estas Filtrando"); 
+    if(isset($_POST['commandRegistro'])) {
 
-        $sql3 = "SELECT * FROM `productos` WHERE id = 10;";
-        $consulta = mysqli_query($conexion, $sql3);
+        $user = $_POST['usuario'];
+        $nombre = $_POST['name'];
+        $apellidos = $_POST['lastname'];
+        $email = $_POST['email'];
+        $passwd = $_POST['contraseña'];
+        $passwd2 = $_POST['contraseña2']; 
 
-        if(!$consulta){
-            print_r("Error");
-        }else{
-            header("Location: /ejercicio1PHP/productos.php");
+        if($passwd != $passwd2){
+            header("Location: /ejercicio1PHP/signup.php?error=passwd");
+            die;
         }
 
-}
+        $passwd = sha1($_POST['contraseña']);
+        
+        if(!$conexion){
+            echo "No se ha podido realizar la conexion a la Base de Datos".mysqli_connect_error()."<br>";
+            die;
+        }else{
+            mysqli_set_charset($conexion, "utf8");
+            //echo "Se ha realizado correctamente la conexion a la Base de datos";
+        
+            $sql = "INSERT INTO `users`(`id`, `user`,`nombre`, `apellidos`, `email`, `passwd`) VALUES (NULL, '$user', '$nombre','$apellidos','$email','$passwd')";
+        
+            $consulta = mysqli_query($conexion, $sql);
+            
+            if(!$consulta){
+                die("No se ha podido insertar los datos");
+            }else{
+                header("Location: /ejercicio1PHP/productos.php");
+            }
+        }
+                
+        }
+
+
+
+
 
 
 
