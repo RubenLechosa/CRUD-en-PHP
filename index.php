@@ -52,7 +52,8 @@
                         </div>
 
                         <!-- Submit button -->
-                        <button type="button" class="btn btn-success btn-block mb-4">Entrar</button>
+                        <button type="button" class="btn btn-success btn-block mb-4" value="1"
+                            name="commandLogin">Entrar</button>
 
                         <!-- Register buttons -->
                         <div class="text-center">

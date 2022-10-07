@@ -88,6 +88,18 @@
                         </div>
                         <?php } ?>
 
+                        <?php if(isset($_GET["error"]) && $_GET["error"] == "user") { ?>
+                        <div class="alert alert-danger" role="alert">
+                            El nombre de usuario ya existe
+                        </div>
+                        <?php } ?>
+
+                        <?php if(isset($_GET["error"]) && $_GET["error"] == "email") { ?>
+                        <div class="alert alert-danger" role="alert">
+                            El correo electronico ya existe
+                        </div>
+                        <?php } ?>
+
                         <!-- Submit button -->
                         <button type="submit" class="btn btn-success btn-block mb-4" value="1"
                             name="commandRegistro">Crear</button>

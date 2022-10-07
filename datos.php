@@ -78,7 +78,7 @@ if(isset($_POST['commandEditar'])) {
 
     if(isset($_POST['commandRegistro'])) {
 
-        $user = $_POST['usuario'];
+        $user = $_POST['user'];
         $nombre = $_POST['name'];
         $apellidos = $_POST['lastname'];
         $email = $_POST['email'];
@@ -89,28 +89,69 @@ if(isset($_POST['commandEditar'])) {
             header("Location: /ejercicio1PHP/signup.php?error=passwd");
             die;
         }
-
         $passwd = sha1($_POST['contraseña']);
         
         if(!$conexion){
             echo "No se ha podido realizar la conexion a la Base de Datos".mysqli_connect_error()."<br>";
             die;
         }else{
-            mysqli_set_charset($conexion, "utf8");
-            //echo "Se ha realizado correctamente la conexion a la Base de datos";
-        
+
+            $quser = mysqli_query($conexion, "SELECT * FROM users WHERE user = '$user'");
+            $qmail = mysqli_query($conexion, "SELECT * FROM users WHERE email = '$email'");
+            $filasuser = mysqli_num_rows($quser);
+            $filaemail = mysqli_num_rows($qmail);
+            //verificamos si el user exite con un condicional
+
+            if($filasuser > 0){
+                header("Location: /ejercicio1PHP/signup.php?error=user");
+                die;
+            }else if($filaemail > 0){
+                header("Location: /ejercicio1PHP/signup.php?error=email");
+                die;
+            }
             $sql = "INSERT INTO `users`(`id`, `user`,`nombre`, `apellidos`, `email`, `passwd`) VALUES (NULL, '$user', '$nombre','$apellidos','$email','$passwd')";
         
             $consulta = mysqli_query($conexion, $sql);
             
             if(!$consulta){
-                die("No se ha podido insertar los datos");
+                die("No se ha podido insertar al user");
             }else{
                 header("Location: /ejercicio1PHP/productos.php");
             }
         }
                 
         }
+
+        if(isset($_POST['commandLogin'])) {
+
+            $email = $_POST['email'];
+            $passwd = $_POST['contraseña'];
+    
+            
+            
+            if(!$conexion){
+                echo "No se ha podido realizar la conexion a la Base de Datos".mysqli_connect_error()."<br>";
+                die;
+            }else{
+    
+                $sql = "SELECT * FROM users WHERE email = '$email'";
+                $consulta = mysqli_query($conexion, $sql);
+
+                $num_match = mysqli_num_rows($consulta);
+
+                if(!$num_match){
+                    die("No existe el correo");
+
+                }else{
+                    $sql = "SELECT * FROM users WHERE passwd = '$passwd'";
+                    $consulta = mysqli_query($conexion, $sql);
+                    $password_match = mysqli_num_rows($consulta);
+
+
+                }
+            }
+                    
+            }
 
 
 
