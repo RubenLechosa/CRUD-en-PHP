@@ -27,7 +27,7 @@
             <div class="col-md-4 mx-auto">
                 <h2>Login</h2> 
                 <div class="card card-body">
-                    <form action="login.php" method="POST">
+                    <form action="./datos.php" method="POST">
                         <!-- Email input -->
                         <div class="form-outline mb-4">
                             <label class="form-label" for="form2Example1">Email</label>
@@ -36,7 +36,7 @@
 
                         <!-- Password input -->
                         <div class="form-outline mb-4">
-                            <label class="form-label" for="form2Example2">Contraseña</label>
+                            <label class="form-label" for="contraseña">Contraseña</label>
                             <input type="password" name="contraseña" class="form-control" placeholder="Inserta tu econtraseña"  />
                         </div>
 
@@ -51,8 +51,20 @@
                             </div>
                         </div>
 
+                        <?php if(isset($_GET["error"]) && $_GET["error"] == "missemail") { ?>
+                        <div class="alert alert-danger" role="alert">
+                            El correo electronico no existe. 
+                        </div>
+                        <?php } ?> 
+
+                        <?php if(isset($_GET["error"]) && $_GET["error"] == "wrongpasswd") { ?>
+                        <div class="alert alert-danger" role="alert">
+                            La contraseña no es correcta.
+                        </div>
+                        <?php } ?>
+
                         <!-- Submit button -->
-                        <button type="button" class="btn btn-success btn-block mb-4" value="1"
+                        <button type="submit" class="btn btn-success btn-block mb-4" value="1"
                             name="commandLogin">Entrar</button>
 
                         <!-- Register buttons -->

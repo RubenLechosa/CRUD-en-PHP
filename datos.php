@@ -85,10 +85,34 @@ if(isset($_POST['commandEditar'])) {
         $passwd = $_POST['contraseña'];
         $passwd2 = $_POST['contraseña2']; 
 
+        //Solo se permiten numeros letras y guiones bajos
+        if (preg_match("/[^a-zA-Z0-9_]/", $user)){
+            header("Location: /ejercicio1PHP/signup.php?error=usrpattern");
+            die;
+        }
+        //Validamos el email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            header("Location: /ejercicio1PHP/signup.php?error=emailpattern");
+            die;
+        }
+
+        //Validamos la contraseña
+        $uppercase = preg_match('@[A-Z]@', $passwd);
+        $lowercase = preg_match('@[a-z]@', $passwd);
+        $number    = preg_match('@[0-9]@', $passwd);
+        $specialChars = preg_match('@[^\w]@', $passwd);
+
+        if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($passwd) < 8) {
+            header("Location: /ejercicio1PHP/signup.php?error=passwdStrength");
+            die;
+        }
+
+        //Comprobar que las contraseñas coinciden
         if($passwd != $passwd2){
             header("Location: /ejercicio1PHP/signup.php?error=passwd");
             die;
         }
+        //encriptamos contraseña
         $passwd = sha1($_POST['contraseña']);
         
         if(!$conexion){
@@ -100,15 +124,17 @@ if(isset($_POST['commandEditar'])) {
             $qmail = mysqli_query($conexion, "SELECT * FROM users WHERE email = '$email'");
             $filasuser = mysqli_num_rows($quser);
             $filaemail = mysqli_num_rows($qmail);
-            //verificamos si el user exite con un condicional
-
+            
+            //Comprobamos que el usuario no existe
             if($filasuser > 0){
                 header("Location: /ejercicio1PHP/signup.php?error=user");
                 die;
+            //Comprobamos que el email no existe
             }else if($filaemail > 0){
                 header("Location: /ejercicio1PHP/signup.php?error=email");
                 die;
             }
+
             $sql = "INSERT INTO `users`(`id`, `user`,`nombre`, `apellidos`, `email`, `passwd`) VALUES (NULL, '$user', '$nombre','$apellidos','$email','$passwd')";
         
             $consulta = mysqli_query($conexion, $sql);
@@ -127,8 +153,6 @@ if(isset($_POST['commandEditar'])) {
             $email = $_POST['email'];
             $passwd = $_POST['contraseña'];
     
-            
-            
             if(!$conexion){
                 echo "No se ha podido realizar la conexion a la Base de Datos".mysqli_connect_error()."<br>";
                 die;
@@ -140,14 +164,24 @@ if(isset($_POST['commandEditar'])) {
                 $num_match = mysqli_num_rows($consulta);
 
                 if(!$num_match){
-                    die("No existe el correo");
+                    header("Location: /ejercicio1PHP/index.php?error=missemail");
+                    die;
 
                 }else{
-                    $sql = "SELECT * FROM users WHERE passwd = '$passwd'";
+                    $sql = "SELECT passwd FROM users WHERE email = '$email'";
+
                     $consulta = mysqli_query($conexion, $sql);
-                    $password_match = mysqli_num_rows($consulta);
 
+                    $fila = $consulta -> fetch_assoc();
 
+                    $passwd = sha1($_POST['contraseña']);
+
+                    if($passwd == $fila["passwd"]){
+                        header("Location: /ejercicio1PHP/productos.php");
+                    }else{
+                        header("Location: /ejercicio1PHP/index.php?error=wrongpasswd");
+                        die;
+                    }
                 }
             }
                     

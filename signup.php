@@ -35,19 +35,19 @@
                     <div class="form-outline mb-2 ">
                             <label class="form-label" for="user">Nombre de Usuario</label>
                             <input type="text" name="user" class="form-control" placeholder="Inserta tu Usuario"
-                                autofocus required />
+                                autofocus required minlength="6"/>
                         </div>
                         <!-- Name and LastName input -->
                         <div class="form-outline mb-2 ">
                             <label class="form-label" for="name">Nombre</label>
                             <input type="text" name="name" class="form-control" placeholder="Inserta tu Nombre"
-                                autofocus required />
+                                autofocus required minlength="1" />
                         </div>
 
                         <div class="form-outline mb-2">
                             <label class="form-label" for="lastname">Apellido</label>
                             <input type="text" name="lastname" class="form-control" placeholder="Inserta tu Apellido"
-                                required />
+                                required minlength="3"/>
                         </div>
 
                         <!-- Email input -->
@@ -61,12 +61,12 @@
                         <div class="form-outline mb-2">
                             <label class="form-label" for="contraseña">Contraseña</label>
                             <input type="password" name="contraseña" class="form-control"
-                                placeholder="Inserta tu Contraseña" required />
+                                placeholder="Inserta tu Contraseña" required/>
                         </div>
                         <div class="form-outline mb-2">
                             <label class="form-label" for="contraseña2">Confirmar Contraseña</label>
                             <input type="password" name="contraseña2" class="form-control"
-                                placeholder="Confirma tu Contraseña" required />
+                                placeholder="Confirma tu Contraseña" required/>
                         </div>
 
                         <!-- 2 column grid layout for inline styling -->
@@ -88,15 +88,33 @@
                         </div>
                         <?php } ?>
 
+                        <?php if(isset($_GET["error"]) && $_GET["error"] == "passwdStrength") { ?>
+                        <div class="alert alert-danger" role="alert">
+                            La contraseña debe tener como mínimo 8 caracteres, debe tener una mayuscula, un número y un caracter especial.
+                        </div>
+                        <?php } ?>
+
+                        <?php if(isset($_GET["error"]) && $_GET["error"] == "emailpattern") { ?>
+                        <div class="alert alert-danger" role="alert">
+                            El email no es correcto.
+                        </div>
+                        <?php } ?>
+
+                        <?php if(isset($_GET["error"]) && $_GET["error"] == "usrpattern") { ?>
+                        <div class="alert alert-danger" role="alert">
+                            El Nombre de Usuario solo permite letras, numeros y guiones bajos.
+                        </div>
+                        <?php } ?>
+
                         <?php if(isset($_GET["error"]) && $_GET["error"] == "user") { ?>
                         <div class="alert alert-danger" role="alert">
-                            El nombre de usuario ya existe
+                            El nombre de usuario ya existe.
                         </div>
                         <?php } ?>
 
                         <?php if(isset($_GET["error"]) && $_GET["error"] == "email") { ?>
                         <div class="alert alert-danger" role="alert">
-                            El correo electronico ya existe
+                            El correo electronico ya existe.
                         </div>
                         <?php } ?>
 
