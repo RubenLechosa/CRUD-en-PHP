@@ -1,39 +1,40 @@
 <?php
 include("conexion.php");
-session_start();
+    session_start();
 
-if(!isset($_SESSION["id_user"])){
-    header("Location: /ejercicio1PHP/login.php");
-}
+    if(!isset($_SESSION["id_user"])){
+        header("Location: /ejercicio1PHP/login.php");
+    }
 
-$user = $_SESSION["id_user"];
-$sql = "SELECT * FROM users WHERE id = $user";
+    $user = $_SESSION["id_user"];
+    $sql = "SELECT * FROM users WHERE id = $user";
 
-$consulta = mysqli_query($conexion, $sql);
-$fila = $consulta -> fetch_assoc();
-$_SESSION["nusuario"] = $fila["user"];
+    $consulta = mysqli_query($conexion, $sql);
+    $fila = $consulta -> fetch_assoc();
+    $_SESSION["nusuario"] = $fila["user"];
 
-if($fila["admin"] != 1){
-    header("Location: /ejercicio1PHP/tienda.php");
-}
+    if($fila["admin"] != 1){
+        header("Location: /ejercicio1PHP/tienda.php");
+    }
 
     
 
     if(isset($_GET['id'])){
     $id = $_GET['id'];
-    $query = "SELECT * FROM productos WHERE id = $id";
+    $query = "SELECT * FROM users WHERE id = $id";
 
     $result = mysqli_query($conexion, $query);
 
     if(mysqli_num_rows($result) == 1){
         $fila = mysqli_fetch_array($result);
         $id = $fila['id'];
+        $user = $fila['user'];
         $nombre = $fila['nombre'];
-        $categoria = $fila['categoria'];
-        $cantidad = $fila['cantidad'];
-        $precio = $fila['precio'];
-
+        $apellidos = $fila['apellidos'];
+        $email = $fila['email'];
+        $admin = $fila['admin'];
     }
+    
 
 }
 
@@ -131,13 +132,13 @@ if($fila["admin"] != 1){
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="productos.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Productos</span></a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="users.php">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Usuarios</span></a>
@@ -232,75 +233,91 @@ if($fila["admin"] != 1){
                 <div class="container p-4">
                     <div class="row">
                         <div class="col-md-4 mx-auto">
-                            <h2>Editar Producto</h2>
+                            <h2>Editar Usuario</h2>
                             <div class="card card-body">
                                 <form action="./datos.php" method="POST">
 
                                     <input type="hidden" name="id" value="<?=$id ?>">
                                     <!-- Nombre input -->
                                     <div class="form-outline mb-4">
+                                        <label class="form-label" for="user">Nombre de Usuario</label>
+                                        <input type="text" name="user" class="form-control"
+                                            placeholder="Inserta el nombre de usuario" value="<?= $user ?>" autofocus />
+                                    </div>
+
+                                    <div class="form-outline mb-4">
                                         <label class="form-label" for="nombre">Nombre</label>
                                         <input type="text" name="nombre" class="form-control"
-                                            placeholder="Inserta el nombre del producto" value="<?=$nombre ?>"
-                                            autofocus />
+                                            placeholder="Inserta el Nombre" value="<?=$nombre ?>" autofocus />
                                     </div>
 
                                     <!-- Categoria input -->
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="categoria">Categoria</label>
-                                        <input type="text" name="categoria" class="form-control"
-                                            placeholder="Inserta la categoria del producto" value="<?=$categoria ?>" />
+                                        <label class="form-label" for="apellidos">Apellidos</label>
+                                        <input type="text" name="apellidos" class="form-control"
+                                            placeholder="Inserta los Apellidos" value="<?=$apellidos ?>" />
                                     </div>
                                     <!-- Cantidad input -->
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="cantidad">Cantidad</label>
-                                        <input type="number" name="cantidad" class="form-control"
-                                            placeholder="Inserta la cantidad del producto" value="<?=$cantidad ?>" />
+                                        <label class="form-label" for="email">Email</label>
+                                        <input type="text" name="email" class="form-control"
+                                            placeholder="Inserta el email" value="<?=$email ?>" />
                                     </div>
                                     <!-- Precio input -->
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="precio">Precio</label>
-                                        <input type="number" name="precio" class="form-control"
-                                            placeholder="Inserta el precio del producto" value="<?=$precio ?>" />
+                                        <label class="form-label" for="admin">Admin</label>
+                                        <input type="number" name="admin" class="form-control"
+                                            placeholder="Inserta 0 o 1 si el usuario es ADMIN" value="<?=$admin ?>" />
                                     </div>
 
                                     <!-- Submit button -->
                                     <button type="submit" class="btn btn-success btn-block mb-4" value="1"
-                                        name="commandEditar">Editar</button>
+                                        name="commandEditarUsr">Editar</button>
 
-                                    <!-- Logout Modal-->
-                                    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Seguro que quieres
-                                                        salir?</h5>
-                                                    <button class="close" type="button" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">Pulsa en "Logout" si quieres cerrar la sesión
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <form action="./datos.php" method="POST">
-                                                        <button class="btn btn-secondary" type="button"
-                                                            data-dismiss="modal">Cancelar</button>
-                                                        <button class="btn btn-primary" value="1"
-                                                            name="commandLogOut">Logout</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- JavaScript Bundle with Popper -->
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-                    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-                    crossorigin="anonymous"></script>
+                <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Seguro que quieres salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Pulsa en "Logout" si quieres cerrar la sesión</div>
+                <div class="modal-footer">
+                <form action="./datos.php" method="POST">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" value="1" name="commandLogOut">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                <!-- Bootstrap core JavaScript-->
+                <script src="vendor/jquery/jquery.min.js"></script>
+                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+                <!-- Core plugin JavaScript-->
+                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+                <!-- Custom scripts for all pages-->
+                <script src="js/sb-admin-2.min.js"></script>
+
+                <!-- Page level plugins -->
+                <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+                <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+                <!-- Page level custom scripts -->
+                <script src="js/demo/datatables-demo.js"></script>
+
+</body>
+</html>

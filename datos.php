@@ -1,5 +1,14 @@
 <?php
+session_start();
+
 include_once("conexion.php");
+
+$user = $_SESSION["id_user"];
+$sql = "SELECT * FROM users WHERE id = $user";
+
+$consulta = mysqli_query($conexion, $sql);
+$fila = $consulta -> fetch_assoc();
+$_SESSION["nusuario"] = $fila["user"];
 
 if(isset($_POST['commandEnviar'])) {
 
@@ -7,9 +16,6 @@ $nombre = $_POST['nombre'];
 $categoria = $_POST['categoria'];
 $cantidad = $_POST['cantidad'];
 $precio = $_POST['precio'];
-
-
-echo "El nombre es ".$nombre. ", la categoria es ".$categoria. ", la cantidad es ".$cantidad." y el precio es ".$precio."<br>";
 
     if(!$conexion){
         echo "No se ha podido realizar la conexion a la Base de Datos".mysqli_connect_error()."<br>";
@@ -59,6 +65,35 @@ if(isset($_POST['commandEditar'])) {
             
     }
 
+    if(isset($_POST['commandEditarUsr'])) {
+
+        $id = $_POST['id'];
+        $user = $_POST['user'];
+        $nombre = $_POST['nombre'];
+        $apellidos = $_POST['apellidos'];
+        $email = $_POST['email'];
+        $admin = $_POST['admin'];
+        
+            if(!$conexion){
+                echo "No se ha podido realizar la conexion a la Base de Datos".mysqli_connect_error()."<br>";
+                die;
+            }else{
+                mysqli_set_charset($conexion, "utf8");
+                //echo "Se ha realizado correctamente la conexion a la Base de datos";
+            
+                $query = "UPDATE users set user = '$user', nombre = '$nombre', apellidos = '$apellidos', email = '$email', admin = $admin WHERE id = $id";
+            
+                $consulta = mysqli_query($conexion, $query);
+                
+                if(!$consulta){
+                    die("No se ha podido insertar los datos");
+                }else{
+                    header("Location: /ejercicio1PHP/users.php");
+                }
+            }
+                
+        }
+
     if(isset($_GET['commandBorrar'])) {
 
         
@@ -76,6 +111,30 @@ if(isset($_POST['commandEditar'])) {
             }
     }
 
+    if(isset($_GET['commandBorrarUsr'])) {
+
+        
+        if(isset($_GET['id'])){
+            $id = $_GET['id'];
+            $sql3 = "DELETE FROM users WHERE id = $id";
+
+            $consulta = mysqli_query($conexion, $sql3);
+        
+            if(!$consulta){
+                print_r("Error");
+            }else{
+                header("Location: /ejercicio1PHP/users.php");
+            }
+        }
+}
+
+if(isset($_POST['commandLogOut'])) {
+
+        session_destroy();
+        header("Location: /ejercicio1PHP/login.php");
+        
+}
+
     if(isset($_POST['commandRegistro'])) {
 
         $user = $_POST['user'];
@@ -83,7 +142,7 @@ if(isset($_POST['commandEditar'])) {
         $apellidos = $_POST['lastname'];
         $email = $_POST['email'];
         $passwd = $_POST['contraseña'];
-        $passwd2 = $_POST['contraseña2']; 
+        $passwd2 = $_POST['contraseña2'];
 
         //Solo se permiten numeros letras y guiones bajos
         if (preg_match("/[^a-zA-Z0-9_]/", $user)){
@@ -135,14 +194,15 @@ if(isset($_POST['commandEditar'])) {
                 die;
             }
 
-            $sql = "INSERT INTO `users`(`id`, `user`,`nombre`, `apellidos`, `email`, `passwd`) VALUES (NULL, '$user', '$nombre','$apellidos','$email','$passwd')";
+            $sql = "INSERT INTO `users`(`user`,`nombre`, `apellidos`, `email`, `passwd`) VALUES ('$user', '$nombre','$apellidos','$email','$passwd')";
         
             $consulta = mysqli_query($conexion, $sql);
             
             if(!$consulta){
                 die("No se ha podido insertar al user");
             }else{
-                header("Location: /ejercicio1PHP/productos.php");
+                header("Location: /ejercicio1PHP/tienda.php");
+                $_SESSION["id_user"] = mysqli_insert_id($conexion);
             }
         }
                 
@@ -168,7 +228,7 @@ if(isset($_POST['commandEditar'])) {
                     die;
 
                 }else{
-                    $sql = "SELECT passwd FROM users WHERE email = '$email'";
+                    $sql = "SELECT passwd, id FROM users WHERE email = '$email'";
 
                     $consulta = mysqli_query($conexion, $sql);
 
@@ -177,22 +237,44 @@ if(isset($_POST['commandEditar'])) {
                     $passwd = sha1($_POST['contraseña']);
 
                     if($passwd == $fila["passwd"]){
-                        header("Location: /ejercicio1PHP/productos.php");
+                        $_SESSION["id_user"] = $fila["id"];
+                        header("Location: /ejercicio1PHP/tienda.php");
+
                     }else{
-                        header("Location: /ejercicio1PHP/index.php?error=wrongpasswd");
+                        header("Location: /ejercicio1PHP/login.php?error=wrongpasswd");
                         die;
                     }
                 }
             }
-                    
+            
             }
 
+            if(isset($_POST['commandAddCarrito'])) {
+                
+                $idProducto = $_POST['commandAddCarrito'];
 
+                    if(!$conexion){
+                        echo "No se ha podido realizar la conexion a la Base de Datos".mysqli_connect_error()."<br>";
+                        die;
+                    }else{
+                        mysqli_set_charset($conexion, "utf8");
 
+                        $sql = "SELECT * FROM users WHERE id = $user";
+                        $sqlProducto = "SELECT * FROM productos WHERE id = $user";
+                    
+                        $consulta = mysqli_query($conexion, $sql);
+                        
+                        $fila = $consulta -> fetch_assoc();
 
+                        $carrito = json_decode($fila['carrito'], true);
+                        $carrito[] = $idProducto;
 
+                        $myJSON = json_encode($carrito);
 
-
-    
-
+                        $query = "UPDATE users set carrito = '$myJSON' WHERE id = $user";
+                        $consulta = mysqli_query($conexion, $query);
+                        header("Location: /ejercicio1PHP/tienda.php?success=added");
+                    }
+                        
+                }
 ?>

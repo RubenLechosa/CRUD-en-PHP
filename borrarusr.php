@@ -19,6 +19,7 @@ if($fila["admin"] != 1){
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +29,7 @@ if($fila["admin"] != 1){
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <title>Borrar Producto</title>
+  <title>Borrar Usuario</title>
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -51,15 +52,15 @@ if($fila["admin"] != 1){
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Seguro que quieres borrar el producto?</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Seguro que quieres borrar al Usuario?</h5>
           </div>
-          <div class="modal-body">Pulsa en "SI" si quieres borrar el producto definitivamente</div>
+          <div class="modal-body">Pulsa en "SI" si quieres borrar el usuario definitivamente</div>
           <div class="modal-footer">
             <form action="./datos.php" method="GET">
               <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
               <button id="boton" type="submit" class="btn btn-success d-inline-block" value="1"
-                name="commandBorrar">Si</button>
-              <a id="boton" href="productos.php" class="btn btn-danger d-inline-block">No</a>
+                name="commandBorrarUsr">Si</button>
+              <a id="boton" href="users.php" class="btn btn-danger d-inline-block">No</a>
             </form>
           </div>
         </div>

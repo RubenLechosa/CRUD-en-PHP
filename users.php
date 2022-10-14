@@ -2,9 +2,7 @@
 <html lang="en">
 <?php 
 include_once("conexion.php");
-    
     session_start();
-
     if(!isset($_SESSION["id_user"])){
         header("Location: /ejercicio1PHP/login.php");
     }
@@ -92,8 +90,6 @@ include_once("conexion.php");
                     <i class="fas fa-fw fa-cart-shopping"></i>
                     <span>Carrito</span></a>
             </li>
-            
-
             <?php if($fila["admin"]) { ?> 
                 <hr class="sidebar-divider">
             <!-- Heading -->
@@ -109,13 +105,13 @@ include_once("conexion.php");
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="productos.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Productos</span></a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="users.php">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Usuarios</span></a>
@@ -212,7 +208,7 @@ include_once("conexion.php");
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Productos</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Usuarios</h1>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -221,14 +217,14 @@ include_once("conexion.php");
                             
                                 <input style="width: 200px;" class="form-control mr-1" type="text" placeholder="ID"
                                     name="id">
+                                    <input style="width: 200px;" class="form-control mr-1" type="text"
+                                    placeholder="Usuario" name="user">
                                 <input style="width: 200px;" class="form-control mr-1" type="text" placeholder="Nombre"
                                     name="nombre" value="<?php if(isset($_GET["nombre"])){echo($_GET["nombre"]);}?>">
                                 <input style="width: 200px;" class="form-control mr-1" type="text"
-                                    placeholder="Categoria" name="categoria">
+                                    placeholder="Apellidos" name="apellidos">
                                 <input style="width: 200px;" class="form-control mr-1" type="text"
-                                    placeholder="Cantidad" name="cantidad">
-                                <input style="width: 200px;" class="form-control mr-1" type=" text" placeholder="Precio"
-                                    name="precio">
+                                    placeholder="Email" name="email">
                                 <button id="boton" type="submit" class="btn btn-success d-inline-block" value="1"
                                     name="commandFiltrar">Filtrar</button>
                             </form>
@@ -239,60 +235,55 @@ include_once("conexion.php");
                                     <thead>
                                         <tr>
                                             <th>ID</th>
+                                            <th>Usuario</th>
                                             <th>Nombre</th>
-                                            <th>Categoria</th>
-                                            <th>Cantidad</th>
-                                            <th>Precio</th>
+                                            <th>Apellidos</th>
+                                            <th>Email</th>
+                                            <th>Admin</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-
-        $sql2 = "SELECT * FROM `productos` WHERE 1=1 ";
+        include_once("conexion.php");
+        $sql2 = "SELECT * FROM `users` WHERE 1=1 ";
 
         if(isset($_GET["id"]) && $_GET["id"]) {
           $sql2 .= "AND `id` LIKE " . $_GET["id"] . " ";;
         }
 
+        if(isset($_GET["user"]) && $_GET["user"]) {
+            $sql2 .= "AND `user` LIKE '%" . $_GET["user"] . "%' ";
+          }
+
         if(isset($_GET["nombre"]) && $_GET["nombre"]) {
           $sql2 .= "AND `nombre` LIKE '%" . $_GET["nombre"] . "%' ";
         }
 
-        if(isset($_GET["categoria"]) && $_GET["categoria"]) {
-          $sql2 .= "AND `categoria` LIKE '%" . $_GET["categoria"] . "%' ";;
+        if(isset($_GET["apellidos"]) && $_GET["apellidos"]) {
+          $sql2 .= "AND `apellidos` LIKE '%" . $_GET["apellidos"] . "%' ";;
         }
 
-        if(isset($_GET["cantidad"]) && $_GET["cantidad"] > 0) {
-          $sql2 .= "AND `cantidad` LIKE " . $_GET["cantidad"] . " ";;
-        }
-
-        if(isset($_GET["cantidad"]) && $_GET["cantidad"] == 0) {
-          $sql2 .= "AND `cantidad` LIKE " . 0 . " ";
-        }
-
-        if(isset($_GET["precio"]) && $_GET["precio"]) {
-          $sql2 .= "AND `precio` LIKE " . $_GET["precio"] . " ";;
-        }
+        if(isset($_GET["email"]) && $_GET["email"]) {
+            $sql2 .= "AND `email` LIKE '%" . $_GET["email"] . "%' ";;
+          }
 
 
         $consulta = mysqli_query($conexion, $sql2);
         while($fila = $consulta -> fetch_assoc()){
             echo "<tr>";  
             echo "<td>".$fila["id"]."</td>";
+            echo "<td>".$fila["user"]."</td>";
             echo "<td>".$fila["nombre"]."</td>";
-            echo "<td>".$fila["categoria"]."</td>";
-            echo "<td>".$fila["cantidad"]."</td>";
-            echo "<td>".$fila["precio"]."</td>";
-            echo "<td> <a class='btn btn-primary' href='editar.php?id=".$fila['id']."'><i class='fa-solid fa-pen-to-square'></i></a>
-            <a class='btn btn-danger' href='borrar.php?id=".$fila['id']."'><i class='fa-solid fa-trash'></i></a></td>";
+            echo "<td>".$fila["apellidos"]."</td>";
+            echo "<td>".$fila["email"]."</td>";
+            echo "<td>".$fila["admin"]."</td>";
+            echo "<td> <a class='btn btn-primary' href='edituser.php?id=".$fila['id']."'><i class='fa-solid fa-pen-to-square'></i></a>
+            <a class='btn btn-danger' href='borrarusr.php?id=".$fila['id']."'><i class='fa-solid fa-trash'></i></a></td>";
         }
 
         ?>
                                 </table>
-                            </div>
-                            <a type="button" href="insert.php" style="width: 180px;" class="btn btn-success btn-block mr-1">Insertar
-                                Producto</a>
                         </div>
                     </div>
 
@@ -336,7 +327,7 @@ include_once("conexion.php");
                 </div>
                 <div class="modal-body">Pulsa en "Logout" si quieres cerrar la sesión</div>
                 <div class="modal-footer">
-                    <form action="./datos.php" method="POST">
+                <form action="./datos.php" method="POST">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                     <button class="btn btn-primary" value="1" name="commandLogOut">Logout</button>
                     </form>

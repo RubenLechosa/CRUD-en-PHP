@@ -2,9 +2,8 @@
 <html lang="en">
 <?php 
 include_once("conexion.php");
-    
     session_start();
-
+    
     if(!isset($_SESSION["id_user"])){
         header("Location: /ejercicio1PHP/login.php");
     }
@@ -16,11 +15,8 @@ include_once("conexion.php");
     $fila = $consulta -> fetch_assoc();
     $_SESSION["nusuario"] = $fila["user"];
 
-    if($fila["admin"] != 1){
-        header("Location: /ejercicio1PHP/tienda.php");
-    }
-
     ?>
+
 <head>
 
     <meta charset="utf-8">
@@ -28,7 +24,7 @@ include_once("conexion.php");
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Productos</title>
+    <title>Tienda</title>
     <!-- Custom fonts for this template -->
     <script src="https://kit.fontawesome.com/9ddb4510e0.js" crossorigin="anonymous"></script>
     <link
@@ -56,11 +52,11 @@ include_once("conexion.php");
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-text mx-3">CRUD</div>    
-            <div class="sidebar-brand-icon rotate-n-15">
+                <div class="sidebar-brand-text mx-3">CRUD</div>
+                <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fa-brands fa-php"></i>
                 </div>
-                
+
             </a>
 
             <!-- Divider -->
@@ -81,7 +77,7 @@ include_once("conexion.php");
                 Tienda
             </div>
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="tienda.php">
                     <i class="fas fa-fw fa-shop"></i>
                     <span>Tienda</span></a>
@@ -92,10 +88,11 @@ include_once("conexion.php");
                     <i class="fas fa-fw fa-cart-shopping"></i>
                     <span>Carrito</span></a>
             </li>
-            
 
-            <?php if($fila["admin"]) { ?> 
-                <hr class="sidebar-divider">
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <?php if($fila["admin"]) { ?>
+            <hr class="sidebar-divider">
             <!-- Heading -->
             <div class="sidebar-heading">
                 Admin
@@ -109,7 +106,7 @@ include_once("conexion.php");
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="productos.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Productos</span></a>
@@ -123,7 +120,7 @@ include_once("conexion.php");
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
-                <?php } ?>
+            <?php } ?>
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -182,7 +179,8 @@ include_once("conexion.php");
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $_SESSION["nusuario"]; ?></span>
+                                <span
+                                    class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $_SESSION["nusuario"]; ?></span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -212,15 +210,13 @@ include_once("conexion.php");
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Productos</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Tienda</h1>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <form action="" method="GET" class="d-flex justify-content-end">
-                            
-                                <input style="width: 200px;" class="form-control mr-1" type="text" placeholder="ID"
-                                    name="id">
+
                                 <input style="width: 200px;" class="form-control mr-1" type="text" placeholder="Nombre"
                                     name="nombre" value="<?php if(isset($_GET["nombre"])){echo($_GET["nombre"]);}?>">
                                 <input style="width: 200px;" class="form-control mr-1" type="text"
@@ -235,10 +231,17 @@ include_once("conexion.php");
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                                <?php if(isset($_GET["success"]) && $_GET["success"] == "added") { ?>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    Se ha añadido un producto al carrito
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <?php } ?>
                                 <table class="table table-bordered" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
                                             <th>Nombre</th>
                                             <th>Categoria</th>
                                             <th>Cantidad</th>
@@ -250,10 +253,6 @@ include_once("conexion.php");
                                         <?php
 
         $sql2 = "SELECT * FROM `productos` WHERE 1=1 ";
-
-        if(isset($_GET["id"]) && $_GET["id"]) {
-          $sql2 .= "AND `id` LIKE " . $_GET["id"] . " ";;
-        }
 
         if(isset($_GET["nombre"]) && $_GET["nombre"]) {
           $sql2 .= "AND `nombre` LIKE '%" . $_GET["nombre"] . "%' ";
@@ -279,20 +278,17 @@ include_once("conexion.php");
         $consulta = mysqli_query($conexion, $sql2);
         while($fila = $consulta -> fetch_assoc()){
             echo "<tr>";  
-            echo "<td>".$fila["id"]."</td>";
             echo "<td>".$fila["nombre"]."</td>";
             echo "<td>".$fila["categoria"]."</td>";
             echo "<td>".$fila["cantidad"]."</td>";
             echo "<td>".$fila["precio"]."</td>";
-            echo "<td> <a class='btn btn-primary' href='editar.php?id=".$fila['id']."'><i class='fa-solid fa-pen-to-square'></i></a>
-            <a class='btn btn-danger' href='borrar.php?id=".$fila['id']."'><i class='fa-solid fa-trash'></i></a></td>";
+            echo "<td> <form action='./datos.php' method='POST'><button class='btn btn-primary' value='" .$fila["id"]. "'
+            name='commandAddCarrito'><i class='fa-solid fa-cart-shopping'></i></button></form></td>";
         }
 
         ?>
                                 </table>
                             </div>
-                            <a type="button" href="insert.php" style="width: 180px;" class="btn btn-success btn-block mr-1">Insertar
-                                Producto</a>
                         </div>
                     </div>
 
@@ -336,7 +332,7 @@ include_once("conexion.php");
                 </div>
                 <div class="modal-body">Pulsa en "Logout" si quieres cerrar la sesión</div>
                 <div class="modal-footer">
-                    <form action="./datos.php" method="POST">
+                <form action="./datos.php" method="POST">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                     <button class="btn btn-primary" value="1" name="commandLogOut">Logout</button>
                     </form>
