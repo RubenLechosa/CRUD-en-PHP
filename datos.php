@@ -1,14 +1,13 @@
 <?php
-session_start();
+
 
 include_once("conexion.php");
 
-$user = $_SESSION["id_user"];
-$sql = "SELECT * FROM users WHERE id = $user";
+session_start();
 
-$consulta = mysqli_query($conexion, $sql);
-$fila = $consulta -> fetch_assoc();
-$_SESSION["nusuario"] = $fila["user"];
+$user = $_SESSION["id_user"];
+
+
 
 if(isset($_POST['commandEnviar'])) {
 
@@ -250,6 +249,13 @@ if(isset($_POST['commandLogOut'])) {
             }
 
             if(isset($_POST['commandAddCarrito'])) {
+
+
+                $sql = "SELECT * FROM users WHERE id = $user";
+
+                $consulta = mysqli_query($conexion, $sql);
+                $fila = $consulta -> fetch_assoc();
+                $_SESSION["nusuario"] = $fila["user"];
                 
                 $idProducto = $_POST['commandAddCarrito'];
 
@@ -260,7 +266,6 @@ if(isset($_POST['commandLogOut'])) {
                         mysqli_set_charset($conexion, "utf8");
 
                         $sql = "SELECT * FROM users WHERE id = $user";
-                        $sqlProducto = "SELECT * FROM productos WHERE id = $user";
                     
                         $consulta = mysqli_query($conexion, $sql);
                         
