@@ -244,8 +244,9 @@ include_once("conexion.php");
                                         <tr>
                                             <th>Nombre</th>
                                             <th>Categoria</th>
-                                            <!--<th>Cantidad</th>
-                                            <th>Precio</th>-->
+                                            <th>Precio</th>
+                                            <th>Cantidad</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -267,6 +268,9 @@ include_once("conexion.php");
             echo "<tr>";  
             echo "<td>".$fila["nombre"]."</td>";
             echo "<td>".$fila["categoria"]."</td>";
+            echo "<td>".$fila["precio"].'€'."</td>";
+            echo "<td>1</td>";
+            echo "<td><a class='btn btn-danger' href='borrarCarrito.php?id=".$fila['id']."'><i class='fa-solid fa-trash'></i></a></td>";
             echo "</tr>";  
         }
         

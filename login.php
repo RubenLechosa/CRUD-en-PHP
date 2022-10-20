@@ -1,3 +1,16 @@
+
+<?php
+include_once("conexion.php");
+    
+    session_start();
+
+    if(isset($_SESSION["id_user"])){
+        header("Location: /ejercicio1PHP/tienda.php");
+    }
+
+    ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 

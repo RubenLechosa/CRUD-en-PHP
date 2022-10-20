@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -23,7 +24,10 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Registro</a></li>
+                        <li class="nav-item"><a class="nav-link" href="signup.php">Registro</a></li>
+                        
+                        <li class="nav-item"><a class="nav-link" href="tienda.php">Panel de Control</a></li>
+                
                     </ul>
                 </div>
             </div>
@@ -32,9 +36,9 @@
         <header class="masthead text-center text-white">
             <div class="masthead-content">
                 <div class="container px-5">
-                    <h1 class="masthead-heading mb-0">One Page Wonder</h1>
-                    <h2 class="masthead-subheading mb-0">Will Rock Your Socks Off</h2>
-                    <a class="btn btn-primary btn-xl rounded-pill mt-5" href="#scroll">Learn More</a>
+                    <h1 class="masthead-heading mb-0">No se que</h1>
+                    <h2 class="masthead-subheading mb-0">poner aquí</h2>
+                    <a class="btn btn-primary btn-xl rounded-pill mt-5" href="#scroll">Ver más</a>
                 </div>
             </div>
             <div class="bg-circle-1 bg-circle"></div>

@@ -89,8 +89,6 @@ include_once("conexion.php");
                     <span>Carrito</span></a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
             <?php if($fila["admin"]) { ?>
             <hr class="sidebar-divider">
             <!-- Heading -->

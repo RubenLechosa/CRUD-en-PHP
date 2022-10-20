@@ -130,7 +130,7 @@ if(isset($_POST['commandEditar'])) {
 if(isset($_POST['commandLogOut'])) {
 
         session_destroy();
-        header("Location: /ejercicio1PHP/login.php");
+        header("Location: /ejercicio1PHP/index.php");
         
 }
 
@@ -193,7 +193,7 @@ if(isset($_POST['commandLogOut'])) {
                 die;
             }
 
-            $sql = "INSERT INTO `users`(`user`,`nombre`, `apellidos`, `email`, `passwd`) VALUES ('$user', '$nombre','$apellidos','$email','$passwd')";
+            $sql = "INSERT INTO `users`(`user`,`nombre`, `apellidos`, `email`, `passwd`, `carrito`) VALUES ('$user', '$nombre','$apellidos','$email','$passwd', '[]')";
         
             $consulta = mysqli_query($conexion, $sql);
             
@@ -271,9 +271,7 @@ if(isset($_POST['commandLogOut'])) {
                         
                         $fila = $consulta -> fetch_assoc();
 
-                        $carrito = json_decode($fila['carrito'], true);
-                        $carrito[] = $idProducto;
-
+                        $carrito = array_merge(json_decode($fila['carrito'], true), array($idProducto));
                         $myJSON = json_encode($carrito);
 
                         $query = "UPDATE users set carrito = '$myJSON' WHERE id = $user";
@@ -281,5 +279,40 @@ if(isset($_POST['commandLogOut'])) {
                         header("Location: /ejercicio1PHP/tienda.php?success=added");
                     }
                         
+                }
+
+                if(isset($_GET['commandBorrarCarrito'])) {
+                    
+        
+                    if(!$conexion){
+                        echo "No se ha podido realizar la conexion a la Base de Datos".mysqli_connect_error()."<br>";
+                        die;
+                    }else{
+                        mysqli_set_charset($conexion, "utf8");
+
+                        $sql = "SELECT * FROM users WHERE id = $user";
+                    
+                        $consulta = mysqli_query($conexion, $sql);
+                        
+                        $fila = $consulta -> fetch_assoc();
+                        
+                        $carrito = array_merge(json_decode($fila['carrito'], true));
+                        $contador = [];
+
+                        $borrado = false;
+                        foreach ($carrito as $idx => $value) {
+                            if($value == $_GET['id'] && !$borrado) {
+                                unset($carrito[$idx]);
+                                $borrado = true;
+                            }
+                        }
+                        
+                        $carrito = array_values($carrito);
+                        $myJSON = json_encode($carrito);
+
+                        $query = "UPDATE users set carrito = '".$myJSON."' WHERE id = $user";
+                        $consulta = mysqli_query($conexion, $query);
+                        header("Location: /ejercicio1PHP/carrito.php");
+                    }
                 }
 ?>
