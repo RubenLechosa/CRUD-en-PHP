@@ -4,7 +4,12 @@ include("conexion.php");
 session_start();
 
 if(!isset($_SESSION["id_user"])){
-  header("Location: /ejercicio1PHP/login.php");
+  ?>
+        <script>
+            window.location.href="/ejercicio1PHP/login.php";
+        </script>
+        <?php
+  //header("Location: /ejercicio1PHP/login.php");
 }
 
 $user = $_SESSION["id_user"];
@@ -15,7 +20,12 @@ $fila = $consulta -> fetch_assoc();
 $_SESSION["nusuario"] = $fila["user"];
 
 if($fila["admin"] != 1){
-    header("Location: /ejercicio1PHP/tienda.php");
+  ?>
+        <script>
+            window.location.href="/ejercicio1PHP/tienda.php";
+        </script>
+        <?php
+    //header("Location: /ejercicio1PHP/tienda.php");
 }
 
 ?>

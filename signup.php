@@ -4,7 +4,12 @@ include_once("conexion.php");
     session_start();
 
     if(isset($_SESSION["id_user"])){
-        header("Location: /ejercicio1PHP/tienda.php");
+        ?>
+        <script>
+            window.location.href="/ejercicio1PHP/tienda.php";
+        </script>
+        <?php
+        //header("Location: /ejercicio1PHP/tienda.php");
     }
 
     ?>

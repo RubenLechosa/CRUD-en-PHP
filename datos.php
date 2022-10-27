@@ -30,7 +30,12 @@ $precio = $_POST['precio'];
         if(!$consulta){
             die("No se ha podido insertar los datos");
         }else{
-            header("Location: /ejercicio1PHP/productos.php");
+            ?>
+        <script>
+            window.location.href="/ejercicio1PHP/productos.php";
+        </script>
+        <?php
+           // header("Location: /ejercicio1PHP/productos.php");
         }
     }
         
@@ -58,7 +63,12 @@ if(isset($_POST['commandEditar'])) {
             if(!$consulta){
                 die("No se ha podido insertar los datos");
             }else{
-                header("Location: /ejercicio1PHP/productos.php");
+                ?>
+        <script>
+            window.location.href="/ejercicio1PHP/productos.php";
+        </script>
+        <?php
+                //header("Location: /ejercicio1PHP/productos.php");
             }
         }
             
@@ -87,7 +97,12 @@ if(isset($_POST['commandEditar'])) {
                 if(!$consulta){
                     die("No se ha podido insertar los datos");
                 }else{
-                    header("Location: /ejercicio1PHP/users.php");
+                    ?>
+        <script>
+            window.location.href="/ejercicio1PHP/users.php";
+        </script>
+        <?php
+                    //header("Location: /ejercicio1PHP/users.php");
                 }
             }
                 
@@ -105,7 +120,12 @@ if(isset($_POST['commandEditar'])) {
                 if(!$consulta){
                     print_r("Error");
                 }else{
-                    header("Location: /ejercicio1PHP/productos.php");
+                    ?>
+        <script>
+            window.location.href="/ejercicio1PHP/productos.php";
+        </script>
+        <?php
+                   // header("Location: /ejercicio1PHP/productos.php");
                 }
             }
     }
@@ -122,7 +142,12 @@ if(isset($_POST['commandEditar'])) {
             if(!$consulta){
                 print_r("Error");
             }else{
-                header("Location: /ejercicio1PHP/users.php");
+                ?>
+        <script>
+            window.location.href="/ejercicio1PHP/users.php";
+        </script>
+        <?php
+                //header("Location: /ejercicio1PHP/users.php");
             }
         }
 }
@@ -130,7 +155,12 @@ if(isset($_POST['commandEditar'])) {
 if(isset($_POST['commandLogOut'])) {
 
         session_destroy();
-        header("Location: /ejercicio1PHP/index.php");
+        ?>
+        <script>
+            window.location.href="/ejercicio1PHP/index.php";
+        </script>
+        <?php
+        //header("Location: /ejercicio1PHP/index.php");
         
 }
 
@@ -145,12 +175,22 @@ if(isset($_POST['commandLogOut'])) {
 
         //Solo se permiten numeros letras y guiones bajos
         if (preg_match("/[^a-zA-Z0-9_]/", $user)){
-            header("Location: /ejercicio1PHP/signup.php?error=usrpattern");
+            ?>
+        <script>
+            window.location.href="/ejercicio1PHP/signup.php?error=usrpattern";
+        </script>
+        <?php
+           // header("Location: /ejercicio1PHP/signup.php?error=usrpattern");
             die;
         }
         //Validamos el email
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            header("Location: /ejercicio1PHP/signup.php?error=emailpattern");
+            ?>
+        <script>
+            window.location.href="/ejercicio1PHP/signup.php?error=emailpattern";
+        </script>
+        <?php
+            //header("Location: /ejercicio1PHP/signup.php?error=emailpattern");
             die;
         }
 
@@ -161,13 +201,23 @@ if(isset($_POST['commandLogOut'])) {
         $specialChars = preg_match('@[^\w]@', $passwd);
 
         if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($passwd) < 8) {
-            header("Location: /ejercicio1PHP/signup.php?error=passwdStrength");
+            ?>
+        <script>
+            window.location.href="/ejercicio1PHP/signup.php?error=passwdStrength";
+        </script>
+        <?php
+            //header("Location: /ejercicio1PHP/signup.php?error=passwdStrength");
             die;
         }
 
         //Comprobar que las contraseñas coinciden
         if($passwd != $passwd2){
-            header("Location: /ejercicio1PHP/signup.php?error=passwd");
+            ?>
+        <script>
+            window.location.href="/ejercicio1PHP/signup.php?error=passwd";
+        </script>
+        <?php
+            //header("Location: /ejercicio1PHP/signup.php?error=passwd");
             die;
         }
         //encriptamos contraseña
@@ -185,11 +235,21 @@ if(isset($_POST['commandLogOut'])) {
             
             //Comprobamos que el usuario no existe
             if($filasuser > 0){
-                header("Location: /ejercicio1PHP/signup.php?error=user");
+                ?>
+        <script>
+            window.location.href="/ejercicio1PHP/signup.php?error=user";
+        </script>
+        <?php
+                //header("Location: /ejercicio1PHP/signup.php?error=user");
                 die;
             //Comprobamos que el email no existe
             }else if($filaemail > 0){
-                header("Location: /ejercicio1PHP/signup.php?error=email");
+                ?>
+        <script>
+            window.location.href="/ejercicio1PHP/signup.php?error=email";
+        </script>
+        <?php
+                //header("Location: /ejercicio1PHP/signup.php?error=email");
                 die;
             }
 
@@ -200,7 +260,12 @@ if(isset($_POST['commandLogOut'])) {
             if(!$consulta){
                 die("No se ha podido insertar al user");
             }else{
-                header("Location: /ejercicio1PHP/tienda.php");
+                ?>
+        <script>
+            window.location.href="/ejercicio1PHP/tienda.php";
+        </script>
+        <?php
+                //header("Location: /ejercicio1PHP/tienda.php");
                 $_SESSION["id_user"] = mysqli_insert_id($conexion);
             }
         }
@@ -223,7 +288,12 @@ if(isset($_POST['commandLogOut'])) {
                 $num_match = mysqli_num_rows($consulta);
 
                 if(!$num_match){
-                    header("Location: /ejercicio1PHP/index.php?error=missemail");
+                    ?>
+        <script>
+            window.location.href="/ejercicio1PHP/index.php?error=missemail";
+        </script>
+        <?php
+                    //header("Location: /ejercicio1PHP/index.php?error=missemail");
                     die;
 
                 }else{
@@ -237,10 +307,20 @@ if(isset($_POST['commandLogOut'])) {
 
                     if($passwd == $fila["passwd"]){
                         $_SESSION["id_user"] = $fila["id"];
-                        header("Location: /ejercicio1PHP/tienda.php");
+                        ?>
+        <script>
+            window.location.href="/ejercicio1PHP/tienda.php";
+        </script>
+        <?php
+                        //header("Location: /ejercicio1PHP/tienda.php");
 
                     }else{
-                        header("Location: /ejercicio1PHP/login.php?error=wrongpasswd");
+                        ?>
+        <script>
+            window.location.href="/ejercicio1PHP/login.php?error=wrongpasswd";
+        </script>
+        <?php
+                        //header("Location: /ejercicio1PHP/login.php?error=wrongpasswd");
                         die;
                     }
                 }
@@ -276,7 +356,12 @@ if(isset($_POST['commandLogOut'])) {
 
                         $query = "UPDATE users set carrito = '$myJSON' WHERE id = $user";
                         $consulta = mysqli_query($conexion, $query);
-                        header("Location: /ejercicio1PHP/tienda.php?success=added");
+                        ?>
+        <script>
+            window.location.href="/ejercicio1PHP/tienda.php?success=added";
+        </script>
+        <?php
+                        //header("Location: /ejercicio1PHP/tienda.php?success=added");
                     }
                         
                 }
@@ -312,7 +397,12 @@ if(isset($_POST['commandLogOut'])) {
 
                         $query = "UPDATE users set carrito = '".$myJSON."' WHERE id = $user";
                         $consulta = mysqli_query($conexion, $query);
-                        header("Location: /ejercicio1PHP/carrito.php");
+                        ?>
+        <script>
+            window.location.href="/ejercicio1PHP/carrito.php";
+        </script>
+        <?php
+                        //header("Location: /ejercicio1PHP/carrito.php");
                     }
                 }
 ?>
